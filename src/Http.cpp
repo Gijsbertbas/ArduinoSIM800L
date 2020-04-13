@@ -42,6 +42,7 @@ const char HTTPS_DISABLE[] PROGMEM = "AT+HTTPSSL=0\r\n";
 const char NORMAL_MODE[] PROGMEM = "AT+CFUN=1,1\r\n";
 const char SIGNAL_QUALITY[] PROGMEM = "AT+CSQ\r\n";
 const char READ_VOLTAGE[] PROGMEM = "AT+CBC\r\n";
+const char READ_TIME[] PROGMEM = "AT+CIPGSMLOC=1,1\r\n";
 
 const char OK[] PROGMEM = "OK";
 const char DOWNLOAD[] PROGMEM = "DOWNLOAD";
@@ -119,6 +120,26 @@ Result HTTP::get(const char *uri, char *response)
   else
   {
     result = ERROR_HTTP_GET;
+  }
+
+  return result;
+}
+
+Result HTTP::gettime(char *response) {
+
+  Result result;
+
+  if (sendCmdAndWaitForResp_P(READ_TIME, OK, 2000) == TRUE)
+  {
+    if (readBufferString(response) == TRUE){
+      result = SUCCESS;
+    }
+    else {
+      result = ERROR_TIME_RETRIEVAL;
+    }
+  }
+  else {
+    result = ERROR_TIME;
   }
 
   return result;

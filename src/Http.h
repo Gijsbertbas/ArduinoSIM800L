@@ -43,6 +43,7 @@ public:
   Result disconnect();
   Result get(const char *uri, char *response);
   Result post(const char *uri, const char *body, char *response);
+  Result gettime(char *response);
   unsigned int readVoltage();
   unsigned int readVoltagePercentage();
   unsigned int readSignalStrength();
