@@ -87,6 +87,34 @@ int SIM800::readBuffer(char *buffer, int count, unsigned int timeOut)
     return TRUE;
 }
 
+int SIM800::readBufferString(char *buffer, unsigned int timeOut)
+{
+    unsigned long timerStart,timerEnd;
+    String output;
+    timerStart = millis();
+    while(1) {
+        while (serialSIM800.available()) {
+            output = serialSIM800.readString();
+        }
+        timerEnd = millis();
+        if(timerEnd - timerStart > timeOut) {
+            break;
+        }
+    }
+
+    if (output.indexOf("0,") != -1)
+    { // here we should fetch the result only if we get 0 and not error or some other numbers
+		    output = output.substring(output.indexOf("0,"),(output.indexOf("OK")-3));
+	  }	else {
+      return FALSE;
+    }
+
+    int len = output.length();
+    output.toCharArray(buffer, len);
+    if (debugMode) Serial.println(buffer);
+    return TRUE;
+}
+
 void SIM800::cleanBuffer(char *buffer, int count)
 {
     for (int i = 0; i < count; i++)
