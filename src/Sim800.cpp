@@ -111,7 +111,9 @@ int SIM800::readBufferString(char *buffer, unsigned int timeOut)
 
     int len = output.length();
     output.toCharArray(buffer, len);
-    if (debugMode) Serial.println(buffer);
+    #ifdef DEBUG
+      Serial.println(buffer);
+    #endif
     return TRUE;
 }
 
