@@ -79,6 +79,8 @@ public:
      */
     int readBuffer(char *buffer, int count, unsigned int timeOut = DEFAULT_TIMEOUT);
 
+    int readBufferString(char* buffer, unsigned int timeOut = DEFAULT_TIMEOUT);
+
     /** clean Buffer
      *  @param buffer   buffer to clean
      *  @param count    number of bytes to clean
